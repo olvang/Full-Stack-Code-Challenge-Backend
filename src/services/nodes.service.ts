@@ -7,6 +7,15 @@ import { v4 as uuidv4 } from 'uuid';
 class NodesService {
   private nodes: Node[] = [];
 
+  constructor() {
+    this.addNode({
+      id: uuidv4(),
+      name: 'CEO',
+      parentId: null,
+      height: 0,
+    });
+  }
+
   private findNodeById(nodeId: string): Node | undefined {
     return this.nodes.find((node) => node.id === nodeId);
   }
