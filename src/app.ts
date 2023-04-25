@@ -1,5 +1,6 @@
 import express, { Application } from 'express';
 import morgan from 'morgan';
+import nodeRoutes from './routes/nodes.routes';
 
 const app: Application = express();
 
@@ -8,8 +9,6 @@ app.use(express.json());
 app.use(morgan('tiny'));
 
 // Routes
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+app.use('/nodes', nodeRoutes);
 
 export default app;
