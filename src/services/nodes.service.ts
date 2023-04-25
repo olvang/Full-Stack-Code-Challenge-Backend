@@ -1,8 +1,23 @@
+// src/services/nodes.service.ts
+
 import Node from '../models/node.model';
 import { NodeData } from '../models/node.interfaces';
 
 class NodesService {
   private nodes: Node[] = [];
+
+  private findNodeById(nodeId: string): Node | undefined {
+    return this.nodes.find((node) => node.id === nodeId);
+  }
+
+  private validateNodeAndParent(
+    node: Node | undefined,
+    parent: Node | undefined
+  ): void {
+    if (!node || !parent) {
+      throw new Error('Node or new parent not found');
+    }
+  }
 
   public addNode(data: NodeData): Node {
     // Check if the node ID is unique
@@ -13,7 +28,7 @@ class NodesService {
 
     // Check if the parent node exists
     if (data.parentId !== null) {
-      const parentNode = this.nodes.find((node) => node.id === data.parentId);
+      const parentNode = this.findNodeById(data.parentId);
       if (!parentNode) {
         throw new Error('Parent node not found');
       }
@@ -26,7 +41,7 @@ class NodesService {
 
   public getChildNodes(parentId: string): Node[] {
     // Check if the parent node exists
-    const parentNode = this.nodes.find((node) => node.id === parentId);
+    const parentNode = this.findNodeById(parentId);
     if (!parentNode) {
       throw new Error('Parent node not found');
     }
@@ -35,15 +50,16 @@ class NodesService {
   }
 
   public changeParent(nodeId: string, newParentId: string): Node | null {
-    const node = this.nodes.find((node) => node.id === nodeId);
-    const newParent = this.nodes.find((node) => node.id === newParentId);
+    const node = this.findNodeById(nodeId);
+    const newParent = this.findNodeById(newParentId);
 
     // Check if the node and new parent node exist
-    if (!node || !newParent) {
-      throw new Error('Node or new parent not found');
+    this.validateNodeAndParent(node, newParent);
+
+    if (node) {
+      node.parentId = newParentId;
     }
 
-    node.parentId = newParentId;
     return node;
   }
 }
