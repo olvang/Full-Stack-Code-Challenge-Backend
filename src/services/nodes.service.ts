@@ -1,7 +1,8 @@
 // src/services/nodes.service.ts
 
 import Node from '../models/node.model';
-import { NodeData } from '../models/node.interfaces';
+import { NodeData, AddNodeData } from '../models/node.interfaces';
+import { v4 as uuidv4 } from 'uuid';
 
 class NodesService {
   private nodes: Node[] = [];
@@ -19,13 +20,7 @@ class NodesService {
     }
   }
 
-  public addNode(data: NodeData): Node {
-    // Check if the node ID is unique
-    const idExists = this.nodes.some((node) => node.id === data.id);
-    if (idExists) {
-      throw new Error('Node ID already exists');
-    }
-
+  public addNode(data: AddNodeData): Node {
     // Check if the parent node exists
     if (data.parentId !== null) {
       const parentNode = this.findNodeById(data.parentId);
@@ -34,7 +29,9 @@ class NodesService {
       }
     }
 
-    const newNode = new Node(data as Node);
+    const id = uuidv4();
+
+    const newNode = new Node({ ...data, id });
     this.nodes.push(newNode);
     return newNode;
   }

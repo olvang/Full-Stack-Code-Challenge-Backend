@@ -6,3 +6,5 @@ export interface NodeData {
   department?: string;
   programmingLanguage?: string;
 }
+
+export type AddNodeData = Omit<NodeData, 'id'>;

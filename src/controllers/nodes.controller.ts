@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import nodesService from '../services/nodes.service';
-import { NodeData } from '../models/node.interfaces';
+import { AddNodeData } from '../models/node.interfaces';
 
 export const addNode = (req: Request, res: Response): void => {
-  const data: NodeData = req.body;
+  const data: AddNodeData = req.body;
 
   try {
     const newNode = nodesService.addNode(data);
