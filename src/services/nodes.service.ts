@@ -1,19 +1,22 @@
 // src/services/nodes.service.ts
-
-import Node from '../models/node.model';
-import { NodeData, AddNodeData } from '../models/node.interfaces';
 import { v4 as uuidv4 } from 'uuid';
+
+import { AddNodeData } from '../models/node.interfaces';
+import Node from '../models/node.model';
 
 class NodesService {
   private nodes: Node[] = [];
 
   constructor() {
-    this.addNode({
-      id: uuidv4(),
-      name: 'CEO',
+    const rootNode = new Node({
+      id: 'ceo',
+      name: 'CEO Name',
       parentId: null,
       height: 0,
+      department: 'Executive',
     });
+
+    this.nodes.push(rootNode);
   }
 
   private findNodeById(nodeId: string): Node | undefined {
