@@ -7,4 +7,4 @@ export interface NodeData {
   programmingLanguage?: string;
 }
 
-export type AddNodeData = Omit<NodeData, 'id'>;
+export type AddNodeData = Omit<NodeData, 'id' | 'height'>;

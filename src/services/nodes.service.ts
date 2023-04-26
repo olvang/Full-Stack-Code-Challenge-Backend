@@ -34,16 +34,19 @@ class NodesService {
 
   public addNode(data: AddNodeData): Node {
     // Check if the parent node exists
-    if (data.parentId !== null) {
-      const parentNode = this.findNodeById(data.parentId);
-      if (!parentNode) {
-        throw new Error('Parent node not found');
-      }
+    if (!data.parentId) {
+      throw new Error('Parent node not found');
+    }
+
+    const parentNode = this.findNodeById(data.parentId);
+
+    if (!parentNode) {
+      throw new Error('Parent node not found');
     }
 
     const id = uuidv4();
 
-    const newNode = new Node({ ...data, id });
+    const newNode = new Node({ ...data, id, height: parentNode.height + 1 });
     this.nodes.push(newNode);
     return newNode;
   }
